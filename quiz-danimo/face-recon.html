@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Foto-Emoción!</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+    <h1>¡Foto-Emoción! 📸</h1>
+    <p>¿Puedes mostrar la emoción correcta antes de que se acabe el tiempo?</p>
+
+    <div class="game-container">
+        
+        <video id="video" width="720" height="560" autoplay muted></video>
+        
+        <canvas id="game-canvas" width="720" height="560"></canvas>
+
+        <div id="overlay">
+            <div id="challenge-text"></div>
+            <div id="countdown-text"></div>
+            <div id="result-text"></div>
+        </div>
+    </div>
+
+    <div class="ui">
+        <button id="start-button">Comenzar Juego</button>
+        <div id="score">Puntaje: 0</div>
+        <div id="loading-status">Cargando modelos de IA...</div>
+    </div>
+
+</body>
+</html>

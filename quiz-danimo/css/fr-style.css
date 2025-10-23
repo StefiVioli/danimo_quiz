@@ -1,0 +1,123 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 0;
+}
+
+h1 {
+    color: #0056b3;
+}
+
+.game-container {
+    position: relative;
+    width: 720px;
+    height: 560px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background-color: #000;
+}
+
+/* El video real está oculto */
+#video {
+    display: none;
+}
+
+/* El canvas es lo que ve el usuario */
+#game-canvas {
+    display: block;
+    /* Voltear horizontalmente para efecto espejo */
+    transform: scaleX(-1);
+}
+
+/* Capa para todos los textos */
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    pointer-events: none; /* Permite hacer clic "a través" de él */
+}
+
+/* Textos del juego */
+#challenge-text {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+#countdown-text {
+    font-size: 6em;
+    font-weight: bold;
+    color: #ffcc00; /* Amarillo */
+    text-shadow: 0 0 15px rgba(0, 0, 0, 1);
+}
+
+#result-text {
+    font-size: 2.2em;
+    font-weight: bold;
+    padding: 15px 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-shadow: none;
+}
+
+/* Colores de resultado */
+.correct {
+    background-color: rgba(40, 167, 69, 0.9); /* Verde */
+    color: white;
+}
+.incorrect {
+    background-color: rgba(220, 53, 69, 0.9); /* Rojo */
+    color: white;
+}
+
+/* Interfaz de usuario (botones, puntaje) */
+.ui {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#start-button {
+    font-size: 1.2em;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#start-button:hover {
+    background-color: #0056b3;
+}
+#start-button:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+#score {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+#loading-status {
+    color: #555;
+    margin-top: 10px;
+}
