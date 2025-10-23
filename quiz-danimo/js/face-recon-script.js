@@ -23,182 +23,193 @@ const EMOTIONS_ES = {
 
 // --- Estado del Juego ---
 let score = 0;
-let gameInProgress = false; // Controla el bucle de dibujo
+let gameInProgress = false;
 let currentChallenge = '';
 let animationFrameId;
 
-function startEmotionGame() {
-            document.getElementById('startScreen').classList.add('hidden');
-            document.getElementById('quizScreen').classList.add('hidden');
-            document.getElementById('emotionScreen').classList.remove('hidden');
-        }
+// ================================
+// Partículas sobre rostro (modo emoción)
+const particles = [];
+function createEmojiParticles(x, y, emotion) {
+    const emojiMap = {
+        happy: ["😄", "😂", "😊", "😍"],
+        sad: ["😢", "😭", "😞"],
+        angry: ["😡", "😤", "👿"],
+        surprised: ["😲", "😮", "😯"],
+        neutral: ["🙂", "😐", "😶"],
+        fearful: ["😨", "😰", "😱"],
+        disgusted: ["🤢", "🤮", "😖"]
+    };
+    const chosen = emojiMap[emotion] || ["✨"];
 
+    for (let i = 0; i < 5 + Math.random() * 5; i++) {
+        particles.push({
+            emoji: chosen[Math.floor(Math.random() * chosen.length)],
+            x: x + (Math.random() - 0.5) * 100,
+            y: y + (Math.random() - 0.5) * 60,
+            vx: (Math.random() - 0.5) * 2,
+            vy: -1 - Math.random() * 1.5,
+            life: 100 + Math.random() * 50
+        });
+    }
+}
+function drawParticles(ctx) {
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        ctx.font = "24px sans-serif";
+        ctx.globalAlpha = p.life / 150;
+        ctx.fillText(p.emoji, p.x, p.y);
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 2;
+        if (p.life <= 0) particles.splice(i, 1);
+    }
+    ctx.globalAlpha = 1.0;
+}
+
+// ================================
+// Partículas de fondo (decoración)
+function createParticlesBackground() {
+    const container = document.getElementById('particles');
+    if (!container) return;
+    const shapes = ['💝', '✨', '💫', '⭐', '🌟', '💖', '💗', '🌸', '🦋', '🌺'];
+
+    for (let i = 0; i < 25; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.bottom = Math.random() * 100 + '%';
+        particle.style.animationDelay = -(Math.random() * 8) + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        container.appendChild(particle);
+    }
+}
+
+// Confeti de celebración
+function createConfetti() {
+    /*
+    const colors = ['#f7a1b2', '#f58ba0', '#e8d4f0', '#fde2e8', '#ffc9d9', '#d2a8d6', '#f093fb', '#43e97b', '#4facfe'];
+    for (let i = 0; i < 80; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-20px';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 0.3 + 's';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        confetti.style.width = (Math.random() * 8 + 6) + 'px';
+        confetti.style.height = (Math.random() * 12 + 12) + 'px';
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 5000);
+    }
+        */
+}
 
 // ===================================
 // 1. INICIALIZACIÓN
 // ===================================
-
-// Cargar modelos de face-api.js
 async function loadModels() {
-    console.log("Cargando modelos...");
-
-    const MODEL_URL = './models'; // Ruta a tu carpeta de modelos
+    const MODEL_URL = './models';
     await Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
         faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
     ]);
-    console.log("Modelos cargados.");
     loadingStatus.innerText = "¡Modelos cargados! Listo para jugar.";
     startButton.disabled = false;
 }
-
-// Iniciar la cámara web
 async function startWebcam() {
-    console.log("Iniciando webcam...");
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: false
-        });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
         video.srcObject = stream;
         video.play();
     } catch (err) {
-        console.error("Error al acceder a la webcam:", err);
+        console.error(err);
         loadingStatus.innerText = "Error al acceder a la webcam. Revisa los permisos.";
     }
 }
-
-// Iniciar el bucle de dibujo (video en vivo)
 function startVideoLoop() {
-    if (!gameInProgress) return; // Se detiene si el juego no está activo (p.ej. al tomar foto)
-    
-    // Limpiar canvas
+    if (!gameInProgress) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Dibujar video (volteado)
     ctx.save();
-    ctx.scale(-1, 1); // Voltear horizontalmente
+    ctx.scale(-1, 1);
     ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
-    ctx.restore(); // Restaurar para que el texto no se voltee
-    
-    // Continuar el bucle
+    ctx.restore();
+    drawParticles(ctx); // emojis sobre rostro
     animationFrameId = requestAnimationFrame(startVideoLoop);
 }
 
 // ===================================
 // 2. LÓGICA DEL JUEGO
 // ===================================
-
-// Iniciar una nueva ronda del juego
 function nextRound() {
-    // Limpiar textos de la ronda anterior
     clearOverlay();
-
-    // Iniciar el video en vivo de nuevo
     gameInProgress = true;
     startVideoLoop();
-
-    // Elegir un nuevo desafío
     currentChallenge = EMOTIONS[Math.floor(Math.random() * EMOTIONS.length)];
     challengeText.innerText = `¡Prepara: ${EMOTIONS_ES[currentChallenge]}!`;
-
-    // Iniciar la cuenta regresiva
     runCountdown(3);
 }
-
-// Ejecuta la cuenta regresiva (3, 2, 1...)
 function runCountdown(seconds) {
     if (seconds > 0) {
         countdownText.innerText = seconds;
         setTimeout(() => runCountdown(seconds - 1), 1000);
     } else {
         countdownText.innerText = "¡FOTO!";
-        // Tomar la foto y analizarla
         takeAndAnalyzeSnapshot();
     }
 }
-
-// Toma la "foto" (congela el canvas) y la analiza
 async function takeAndAnalyzeSnapshot() {
-    // 1. Detener el bucle de video (congela la imagen en el canvas)
-    gameInProgress = false; 
+    gameInProgress = false;
     cancelAnimationFrame(animationFrameId);
-    console.log("📸 Foto tomada. Analizando...");
-
     challengeText.innerText = "Analizando...";
     countdownText.innerText = "";
-
     try {
-        // 2. Analizar la imagen actual del canvas
-        const detections = await faceapi.detectSingleFace(
-            canvas, 
-            new faceapi.TinyFaceDetectorOptions()
-        ).withFaceExpressions();
-
+        const detections = await faceapi
+            .detectSingleFace(canvas, new faceapi.TinyFaceDetectorOptions())
+            .withFaceExpressions();
         if (detections) {
-            // 3. Encontrar la emoción dominante
             const dominantEmotion = getDominantEmotion(detections.expressions);
-            console.log(`Detectado: ${dominantEmotion} (Objetivo: ${currentChallenge})`);
-
-            // 4. Mostrar resultado
+            const { x, y, width } = detections.detection.box;
+            createEmojiParticles(x + width / 2, y + 50, dominantEmotion);
             if (dominantEmotion === currentChallenge) {
                 showResult(true, dominantEmotion);
                 score++;
-            } else {
-                showResult(false, dominantEmotion);
-            }
-        } else {
-            console.log("No se detectó rostro.");
-            showResult(false, null); // null significa que no se detectó rostro
-        }
-
-    } catch (err) {
-        console.error("Error en la detección:", err);
-    }
-
-    // Actualizar puntaje
+                createConfetti();
+            } else showResult(false, dominantEmotion);
+        } else showResult(false, null);
+    } catch (err) { console.error(err); }
     scoreDisplay.innerText = `Puntaje: ${score}`;
-
-    // 5. Iniciar la siguiente ronda después de 3 segundos
     setTimeout(nextRound, 3000);
 }
 
 // ===================================
-// 3. FUNCIONES AUXILIARES
+// 3. AUXILIARES
 // ===================================
-
-// Inicia el juego al hacer clic en el botón
 startButton.addEventListener('click', () => {
     score = 0;
     scoreDisplay.innerText = `Puntaje: ${score}`;
-    startButton.style.display = 'none'; // Ocultar botón durante el juego
+    startButton.style.display = 'none';
     nextRound();
 });
-
-// Muestra el resultado (correcto/incorrecto)
 function showResult(isCorrect, detectedEmotion) {
     if (isCorrect) {
         resultText.innerText = `¡Correcto! ${EMOTIONS_ES[detectedEmotion]}`;
         resultText.className = 'correct';
     } else {
-        if (detectedEmotion) {
-            resultText.innerText = `¡Fallaste! Pedimos ${EMOTIONS_ES[currentChallenge]}, detectamos ${EMOTIONS_ES[detectedEmotion]}`;
-        } else {
-            resultText.innerText = "¡Oh! No pudimos detectar tu rostro.";
-        }
+        if (detectedEmotion) resultText.innerText = `¡Fallaste! Pedimos ${EMOTIONS_ES[currentChallenge]}, detectamos ${EMOTIONS_ES[detectedEmotion]}`;
+        else resultText.innerText = "¡Oh! No pudimos detectar tu rostro.";
         resultText.className = 'incorrect';
     }
 }
-
-// Limpia los textos de la superposición
 function clearOverlay() {
     challengeText.innerText = "";
     countdownText.innerText = "";
     resultText.innerText = "";
     resultText.className = "";
 }
-
-// Encuentra la emoción con el puntaje más alto
 function getDominantEmotion(expressions) {
     return Object.keys(expressions).reduce((a, b) => expressions[a] > expressions[b] ? a : b);
 }
@@ -206,11 +217,10 @@ function getDominantEmotion(expressions) {
 // ===================================
 // 4. EJECUTAR AL CARGAR
 // ===================================
-
 async function main() {
     startButton.disabled = true;
     await loadModels();
     await startWebcam();
+    createParticlesBackground(); // partículas de fondo
 }
-
 main();

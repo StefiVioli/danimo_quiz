@@ -1,38 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Foto-Emoción!</title>
-    <link rel="stylesheet" href="css/fr-style.css">
-    
-    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Foto-Emoción!</title>
 
-    <script defer src="js/face-recon-script.js"></script>
+  <link rel="stylesheet" href="css/fr-style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script defer src="js/face-recon-script.js"></script>
 </head>
 <body>
 
-    <h1>¡Foto-Emoción! 📸</h1>
-    <p>¿Puedes mostrar la emoción correcta antes de que se acabe el tiempo?</p>
+  <!-- Fondo animado -->
+  <div id="particles"></div>
 
+  <!-- Contenedor principal -->
+  <div class="container">
+    
+    <h1>
+      <span class="dancing-letter" style="animation-delay: 0s;">¡</span>
+      <span class="dancing-letter" style="animation-delay: 0.1s;">F</span>
+      <span class="dancing-letter" style="animation-delay: 0.2s;">o</span>
+      <span class="dancing-letter" style="animation-delay: 0.3s;">t</span>
+      <span class="dancing-letter" style="animation-delay: 0.4s;">o</span>
+      <span class="dancing-letter" style="animation-delay: 0.5s;">-</span>
+      <span class="dancing-letter" style="animation-delay: 0.6s;">E</span>
+      <span class="dancing-letter" style="animation-delay: 0.7s;">m</span>
+      <span class="dancing-letter" style="animation-delay: 0.8s;">o</span>
+      <span class="dancing-letter" style="animation-delay: 0.9s;">c</span>
+      <span class="dancing-letter" style="animation-delay: 0.10s;">i</span>
+      <span class="dancing-letter" style="animation-delay: 0.11s;">ó</span>
+      <span class="dancing-letter" style="animation-delay: 0.12s;">n</span>
+      <span class="dancing-letter" style="animation-delay: 0.13s;">!</span>
+    </h1>
+
+    <p class="subtitle">📸 Muestra la emoción correcta antes de que se acabe el tiempo</p>
+
+    <div class="info-box">
+      <h2>Cómo jugar</h2>
+      <p>Cuando comience el juego, la cámara te mostrará un desafío emocional. ¡Haz la cara correcta antes de que el contador llegue a cero!</p>
+    </div>
+
+    <!-- Área del juego -->
     <div class="game-container">
-        
-        <video id="video" width="720" height="560" autoplay muted></video>
-        
-        <canvas id="game-canvas" width="720" height="560"></canvas>
+      <video id="video" width="720" height="560" autoplay muted></video>
+      <canvas id="game-canvas" width="720" height="560"></canvas>
 
-        <div id="overlay">
-            <div id="challenge-text"></div>
-            <div id="countdown-text"></div>
-            <div id="result-text"></div>
-        </div>
+      <div id="overlay">
+        <div id="challenge-text"></div>
+        <div id="countdown-text"></div>
+        <div id="result-text"></div>
+      </div>
     </div>
 
+    <!-- Interfaz de usuario -->
     <div class="ui">
-        <button id="start-button">Comenzar Juego</button>
-        <div id="score">Puntaje: 0</div>
-        <div id="loading-status">Cargando modelos de IA...</div>
+        <a href="quiz-danimo.html" style="text-decoration: none;"> 
+            <button class="btn">
+            Volver
+            </button>
+        </a>
+      <button id="start-button" class="btn">🎮 Comenzar Juego</button>
+
+      <div class="score-display">
+        Puntaje: <span id="score">0</span>
+      </div>
+      
+
+      <p id="loading-status">Cargando modelos de IA...</p>
     </div>
+
+  </div>
 
 </body>
 </html>
