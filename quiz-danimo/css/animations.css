@@ -1,0 +1,38 @@
+@keyframes danceLetters {
+    0%, 100% { transform: translateY(0px); }
+    25% { transform: translateY(-12px); }
+    50% { transform: translateY(0px); }
+    75% { transform: translateY(-6px); }
+}
+
+@keyframes bounceSlow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dancing-letter {
+    animation: danceLetters 2s ease-in-out infinite;
+}
+
+.brain {
+    animation: bounceSlow 2s ease-in-out infinite;
+}
+
+.option.incorrect {
+    animation: shake 0.3s;
+}
+
+.explanation {
+    animation: slideIn 0.4s;
+}

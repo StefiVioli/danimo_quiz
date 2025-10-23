@@ -1,0 +1,58 @@
+[
+    {
+        "question": "¿Cuál es el mayor uso de las IAs?",
+        "options": [
+            "Acompañamiento afectivo/terapia",
+            "Organizar mi vida",
+            "Buscar sentido de la vida",
+            "Aprender mejor",
+            "Todas las anteriores"
+        ],
+        "correct": 4,
+        "explanation": "Según Harvard Business Review, las IAs se utilizan en todas estas áreas de nuestra vida. Sin embargo, el acompañamiento afectivo y terapéutico es el uso más destacado, demostrando nuestra necesidad de apoyo emocional."
+    },
+    {
+        "question": "¿Sabías que nombrar tus emociones reduce su intensidad? Este fenómeno se llama:",
+        "options": [
+            "Reflexión emocional",
+            "Etiquetado afectivo",
+            "Mindfulness cognitivo",
+            "Catarsis verbal"
+        ],
+        "correct": 1,
+        "explanation": "El etiquetado afectivo es el proceso de poner nombre a lo que sentimos. Cuando identificamos y nombramos nuestras emociones ('estoy ansioso', 'me siento frustrado'), nuestro cerebro reduce la intensidad de esa emoción, ayudándonos a procesarla mejor."
+    },
+    {
+        "question": "La ansiedad y la emoción positiva activan las mismas zonas del cerebro. ¿Qué ayuda a tu cerebro a diferenciarlas?",
+        "options": [
+            "El contexto y cómo las interpretas",
+            "La intensidad",
+            "El horario del día",
+            "La edad"
+        ],
+        "correct": 0,
+        "explanation": "Nuestro cerebro necesita del contexto y de cómo interpretamos la situación para diferenciar entre ansiedad y emoción positiva. Por eso, cambiar nuestra perspectiva puede transformar cómo experimentamos las emociones."
+    },
+    {
+        "question": "Escribir sobre tus emociones durante 15-20 minutos al día puede:",
+        "options": [
+            "Mejorar tu memoria",
+            "Fortalecer tu sistema inmune",
+            "Aumentar tu energía",
+            "Todas las anteriores"
+        ],
+        "correct": 1,
+        "explanation": "Estudios científicos demuestran que escribir sobre nuestras emociones fortalece el sistema inmune, reduce el estrés y mejora nuestro bienestar general. ¡Llevar un registro emocional tiene beneficios reales para tu salud!"
+    },
+    {
+        "question": "¿Cuál es el mejor momento del día para hacer un registro de tus emociones?",
+        "options": [
+            "Por la mañana al despertar",
+            "Después del almuerzo",
+            "Antes de dormir",
+            "No importa el momento"
+        ],
+        "correct": 2,
+        "explanation": "Registrar tus emociones antes de dormir te permite reflexionar sobre tu día, procesar lo vivido y descansar mejor. Este hábito nocturno ayuda a tu mente a ordenar las experiencias emocionales del día."
+    }
+]

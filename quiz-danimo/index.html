@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Danimo - Salud Mental</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Pantalla de inicio -->
+        <div id="startScreen">
+            <img src="assets/images/danimo.svg" class="brain" alt="Cerebro feliz" />
+            <h1>
+                <span class="dancing-letter" style="animation-delay: 0s;">D</span>
+                <span class="dancing-letter" style="animation-delay: 0.1s;">A</span>
+                <span class="dancing-letter" style="animation-delay: 0.2s;">N</span>
+                <span class="dancing-letter" style="animation-delay: 0.3s;">I</span>
+                <span class="dancing-letter" style="animation-delay: 0.4s;">M</span>
+                <span class="dancing-letter" style="animation-delay: 0.5s;">O</span>
+            </h1>
+            <p class="subtitle">Tu compañero en salud mental</p>
+            
+            <div class="info-box">
+                <h2>¿Cuánto sabés sobre salud mental?</h2>
+                <p>Respondé 5 preguntas y aprendé datos fascinantes sobre emociones y bienestar</p>
+            </div>
+
+            <button class="btn" onclick="quiz.startQuiz()">Comenzar Quiz</button>
+        </div>
+
+        <!-- Pantalla de preguntas -->
+        <div id="quizScreen" class="hidden">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <span id="questionNumber" style="color: #f7a1b2; font-weight: 600;">Pregunta 1 de 5</span>
+                <span id="scoreDisplay" style="color: #4a5568; font-weight: 600;">Puntaje: 0</span>
+            </div>
+            
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 20%"></div>
+            </div>
+
+            <div class="question" id="questionText"></div>
+            <div id="optionsContainer"></div>
+            <div id="explanationContainer"></div>
+            <button id="nextBtn" class="btn hidden" onclick="quiz.nextQuestion()">Siguiente Pregunta</button>
+        </div>
+
+        <!-- Pantalla final -->
+        <div id="endScreen" class="hidden">
+            <img src="assets/images/danimo.svg" class="brain" alt="Cerebro feliz" />
+            <h2 style="font-size: 2rem; margin-bottom: 16px;">¡Quiz Completado!</h2>
+            <div class="score" id="finalScore">5/5</div>
+            <p id="finalMessage" style="font-size: 1.25rem; margin-bottom: 32px; color: #4a5568;"></p>
+            <button class="btn" onclick="quiz.restartQuiz()">Volver a jugar</button>
+        </div>
+    </div>
+
+    <script src="js/quiz.js"></script>
+</body>
+</html>
