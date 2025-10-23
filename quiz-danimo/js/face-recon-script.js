@@ -41,6 +41,7 @@ function startEmotionGame() {
 // Cargar modelos de face-api.js
 async function loadModels() {
     console.log("Cargando modelos...");
+
     const MODEL_URL = './models'; // Ruta a tu carpeta de modelos
     await Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
@@ -212,4 +213,4 @@ async function main() {
     await startWebcam();
 }
 
-export { startEmotionGame, startButton, scoreDisplay, challengeText, countdownText, resultText };
+main();
