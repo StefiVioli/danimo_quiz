@@ -27,6 +27,12 @@ let gameInProgress = false; // Controla el bucle de dibujo
 let currentChallenge = '';
 let animationFrameId;
 
+function startEmotionGame() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('emotionScreen').classList.remove('hidden');
+        }
+
 
 // ===================================
 // 1. INICIALIZACIÓN
@@ -206,4 +212,4 @@ async function main() {
     await startWebcam();
 }
 
-main(); // Iniciar todo
+export { startEmotionGame, startButton, scoreDisplay, challengeText, countdownText, resultText };
