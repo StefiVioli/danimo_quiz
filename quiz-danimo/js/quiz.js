@@ -1,14 +1,14 @@
 const fixedQuestion = {
-        question: "¿Cuál es el mayor uso de las IAs?",
-        options: [
-            "Hacer imagenes",
-            "Buscar sentido de la vida",
-            "Acompañamiento afectivo/terapia",
-            "Generar resumenes/explcaciones",
-        ],
-        correct: 2,
-        explanation: "Según Harvard Business Review, las IAs se utilizan en todas estas áreas de nuestra vida. Sin embargo, el acompañamiento afectivo y terapéutico es el uso más destacado, demostrando nuestra necesidad de apoyo emocional."
-    };
+    question: "¿Cuál es el mayor uso de las IAs?",
+    options: [
+        "Hacer imagenes",
+        "Buscar sentido de la vida",
+        "Acompañamiento afectivo/terapia",
+        "Generar resumenes/explcaciones",
+    ],
+    correct: 2,
+    explanation: "Según Harvard Business Review, las IAs se utilizan en todas estas áreas de nuestra vida. Sin embargo, el acompañamiento afectivo y terapéutico es el uso más destacado, demostrando nuestra necesidad de apoyo emocional."
+};
 
 const questionPool = [
     {
@@ -112,24 +112,22 @@ const questionPool = [
     }
 ];
 
-
+let questions = [];
 let currentQuestion = 0;
 let score = 0;
 let answered = false;
 let lives = 3;
 let timerInterval;
 let timeLeft = 20;
-let correctAnswers = 0; // Contador de respuestas correctas
+let correctAnswers = 0;
 
 function selectRandomQuestions() {
     // Mezclar el pool de preguntas
     const shuffled = [...questionPool].sort(() => Math.random() - 0.5);
     // Tomar las primeras 4 preguntas
     const selectedQuestions = shuffled.slice(0, 4);
-    // Insertar la pregunta fija en una posición aleatoria (0-4)
-    //const fixedPosition = Math.floor(Math.random() * 5);
-    //selectedQuestions.splice(fixedPosition, 0, fixedQuestion);
-    selectedQuestions.splice(0,0,fixedQuestion)
+    // Insertar la pregunta fija al principio
+    selectedQuestions.splice(0, 0, fixedQuestion);
     return selectedQuestions;
 }
 
@@ -150,23 +148,32 @@ function createParticles() {
     }
 }
 
-// Confeti
+// Confeti simple con CSS
 function createConfetti() {
-    const colors = ['#f7a1b2', '#f58ba0', '#e8d4f0', '#fde2e8', '#ffc9d9', '#d2a8d6', '#f093fb', '#43e97b', '#4facfe'];
-    for (let i = 0; i < 80; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.top = '-20px';
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 0.3 + 's';
-        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        confetti.style.width = (Math.random() * 8 + 6) + 'px';
-        confetti.style.height = (Math.random() * 12 + 12) + 'px';
-        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-        document.body.appendChild(confetti);
-
-        setTimeout(() => confetti.remove(), 5000);
+    const colors = ['#f7a1b2', '#f58ba0', '#e8d4f0', '#fde2e8', '#ffc9d9', '#d2a8d6', '#f093fb', '#43e97b', '#4facfe', '#ff6b9d'];
+    
+    for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-50px';
+            confetti.style.width = (Math.random() * 8 + 10) + 'px';
+            confetti.style.height = (Math.random() * 12 + 15) + 'px';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
+            confetti.style.setProperty('--rotation', Math.random() * 720 + 'deg');
+            confetti.style.animationDuration = (Math.random() * 1.5 + 2.5) + 's';
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                if (confetti && confetti.parentNode) {
+                    confetti.remove();
+                }
+            }, 5000);
+        }, i * 40);
     }
 }
 
@@ -265,7 +272,7 @@ function selectAnswer(index) {
         options[index].classList.add('correct');
         const timeBonus = Math.max(0, timeLeft * 2);
         score += 10 + timeBonus;
-        correctAnswers++; // Incrementar el contador de respuestas correctas
+        correctAnswers++;
         document.getElementById('scoreDisplay').textContent = `Puntaje: ${score}`;
         createConfetti();
     } else {
@@ -328,30 +335,12 @@ function showResults() {
     document.getElementById('finalMessage').textContent = message;
 }
 
-function shareResults() {
-    const text = `¡Obtuve ${score} puntos en el Quiz Danimo de Salud Mental!\n¿Podés superarme?`;
-    if (navigator.share) {
-        navigator.share({
-            title: 'Quiz Danimo',
-            text: text
-        }).catch(() => {});
-    } else {
-        const tempInput = document.createElement('textarea');
-        tempInput.value = text;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-        alert('¡Texto copiado al portapapeles!');
-    }
-}
-
 function restartQuiz() {
     currentQuestion = 0;
     score = 0;
     lives = 3;
     answered = false;
-    correctAnswers = 0; // Reiniciar el contador de respuestas correctas
+    correctAnswers = 0;
     clearInterval(timerInterval);
 
     document.querySelectorAll('.heart').forEach(heart => {
