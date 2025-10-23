@@ -1,4 +1,4 @@
-const questions = [{
+const fixedQuestion = {
         question: "¿Cuál es el mayor uso de las IAs?",
         options: [
             "Hacer imagenes",
@@ -8,7 +8,9 @@ const questions = [{
         ],
         correct: 2,
         explanation: "Según Harvard Business Review, las IAs se utilizan en todas estas áreas de nuestra vida. Sin embargo, el acompañamiento afectivo y terapéutico es el uso más destacado, demostrando nuestra necesidad de apoyo emocional."
-    },
+    };
+
+const questionPool = [
     {
         question: "¿Sabías que nombrar tus emociones reduce su intensidad? Este fenómeno se llama:",
         options: [
@@ -19,17 +21,6 @@ const questions = [{
         ],
         correct: 1,
         explanation: "El etiquetado afectivo es el proceso de poner nombre a lo que sentimos. Cuando identificamos y nombramos nuestras emociones ('estoy ansioso', 'me siento frustrado'), nuestro cerebro reduce la intensidad de esa emoción, ayudándonos a procesarla mejor."
-    },
-    {
-        question: "La ansiedad y la emoción positiva activan las mismas zonas del cerebro. ¿Qué ayuda a tu cerebro a diferenciarlas?",
-        options: [
-            "El contexto y cómo las interpretas",
-            "La intensidad",
-            "El horario del día",
-            "La edad"
-        ],
-        correct: 0,
-        explanation: "Nuestro cerebro necesita del contexto y de cómo interpretamos la situación para diferenciar entre ansiedad y emoción positiva. Por eso, cambiar nuestra perspectiva puede transformar cómo experimentamos las emociones."
     },
     {
         question: "Escribir sobre tus emociones durante 15-20 minutos al día puede:",
@@ -43,17 +34,84 @@ const questions = [{
         explanation: "Estudios científicos demuestran que escribir sobre nuestras emociones fortalece el sistema inmune, reduce el estrés y mejora nuestro bienestar general. ¡Llevar un registro emocional tiene beneficios reales para tu salud!"
     },
     {
-        question: "¿Cuál es el mejor momento del día para hacer un registro de tus emociones?",
+        question: "¿Qué porcentaje de nuestros pensamientos diarios son repetitivos?",
         options: [
-            "Por la mañana al despertar",
-            "Después del almuerzo",
-            "Antes de dormir",
-            "No importa el momento"
+            "30%",
+            "50%",
+            "70%",
+            "95%"
+        ],
+        correct: 3,
+        explanation: "Aproximadamente el 95% de nuestros pensamientos son repetitivos. Nuestro cerebro tiende a pensar los mismos pensamientos día tras día, por eso es tan importante ser conscientes de nuestros patrones mentales."
+    },
+    {
+        question: "¿Cuántas emociones básicas puede reconocer el cerebro humano?",
+        options: [
+            "4 emociones",
+            "6 emociones",
+            "10 emociones",
+            "15 emociones"
+        ],
+        correct: 1,
+        explanation: "El cerebro humano reconoce 6 emociones básicas universales: alegría, tristeza, miedo, ira, sorpresa y asco. Estas emociones son reconocidas en todas las culturas del mundo."
+    },
+    {
+        question: "¿Cuánto tiempo tarda tu cerebro en formar un nuevo hábito en promedio?",
+        options: [
+            "21 días",
+            "32 días",
+            "66 días",
+            "94 días"
         ],
         correct: 2,
-        explanation: "Registrar tus emociones antes de dormir te permite reflexionar sobre tu día, procesar lo vivido y descansar mejor. Este hábito nocturno ayuda a tu mente a ordenar las experiencias emocionales del día."
+        explanation: "Estudios recientes muestran que en promedio se necesitan 66 días para formar un nuevo hábito, no 21 como se creía antes. El tiempo exacto varía según la complejidad del hábito y la persona."
+    },
+    {
+        question: "¿Qué actividad reduce el estrés tanto como meditar?",
+        options: [
+            "Ver televisión",
+            "Acariciar un perro o gato",
+            "Dormir siesta",
+            "Escuchar música"
+        ],
+        correct: 1,
+        explanation: "Acariciar un perro o gato reduce el cortisol (hormona del estrés) y aumenta la oxitocina (hormona del bienestar) de manera similar a la meditación. ¡Las mascotas son terapéuticas!"
+    },
+    {
+        question: "¿Cuántas neuronas nuevas genera tu cerebro cada día?",
+        options: [
+            "100 neuronas",
+            "700 neuronas",
+            "1,500 neuronas",
+            "10,000 neuronas"
+        ],
+        correct: 2,
+        explanation: "Tu cerebro genera aproximadamente 1,500 neuronas nuevas cada día en el hipocampo, la zona relacionada con la memoria y el aprendizaje. Este proceso se llama neurogénesis."
+    },
+    {
+        question: "La risa libera endorfinas. ¿Cuántos minutos de risa equivalen a 10 minutos de ejercicio?",
+        options: [
+            "5 minutos",
+            "10 minutos",
+            "15 minutos",
+            "20 minutos"
+        ],
+        correct: 1,
+        explanation: "10 minutos de risa genuina pueden tener el mismo efecto en tu bienestar que 10 minutos de ejercicio moderado, liberando endorfinas y reduciendo el estrés. ¡Reír es medicina!"
+    },
+    {
+        question: "¿Qué porcentaje de la población mundial experimenta ansiedad en algún momento de su vida?",
+        options: [
+            "15%",
+            "30%",
+            "50%",
+            "70%"
+        ],
+        correct: 1,
+        explanation: "Aproximadamente el 30% de la población mundial experimenta trastornos de ansiedad en algún momento de su vida. Es uno de los problemas de salud mental más comunes, pero también tratable."
     }
 ];
+
 
 let currentQuestion = 0;
 let score = 0;
@@ -62,6 +120,18 @@ let lives = 3;
 let timerInterval;
 let timeLeft = 20;
 let correctAnswers = 0; // Contador de respuestas correctas
+
+function selectRandomQuestions() {
+    // Mezclar el pool de preguntas
+    const shuffled = [...questionPool].sort(() => Math.random() - 0.5);
+    // Tomar las primeras 4 preguntas
+    const selectedQuestions = shuffled.slice(0, 4);
+    // Insertar la pregunta fija en una posición aleatoria (0-4)
+    //const fixedPosition = Math.floor(Math.random() * 5);
+    //selectedQuestions.splice(fixedPosition, 0, fixedQuestion);
+    selectedQuestions.splice(0,0,fixedQuestion)
+    return selectedQuestions;
+}
 
 // Crear partículas de fondo
 function createParticles() {
@@ -151,6 +221,7 @@ function showCorrectAnswer() {
 }
 
 function startQuiz() {
+    questions = selectRandomQuestions();
     document.getElementById('startScreen').classList.add('hidden');
     document.getElementById('quizScreen').classList.remove('hidden');
     loadQuestion();
