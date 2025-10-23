@@ -1,13 +1,12 @@
 const questions = [{
         question: "¿Cuál es el mayor uso de las IAs?",
         options: [
-            "Acompañamiento afectivo/terapia",
-            "Organizar mi vida",
+            "Hacer imagenes",
             "Buscar sentido de la vida",
-            "Aprender mejor",
-            "Todas las anteriores"
+            "Acompañamiento afectivo/terapia",
+            "Generar resumenes/explcaciones",
         ],
-        correct: 4,
+        correct: 2,
         explanation: "Según Harvard Business Review, las IAs se utilizan en todas estas áreas de nuestra vida. Sin embargo, el acompañamiento afectivo y terapéutico es el uso más destacado, demostrando nuestra necesidad de apoyo emocional."
     },
     {
