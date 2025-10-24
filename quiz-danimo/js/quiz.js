@@ -4,7 +4,7 @@ const fixedQuestion = {
         "Hacer imagenes",
         "Buscar sentido de la vida",
         "Acompañamiento afectivo/terapia",
-        "Generar resumenes/explcaciones",
+        "Generar resumenes/explicaciones",
     ],
     correct: 2,
     explanation: "Según Harvard Business Review, las IAs se utilizan en todas estas áreas de nuestra vida. Sin embargo, el acompañamiento afectivo y terapéutico es el uso más destacado, demostrando nuestra necesidad de apoyo emocional."
